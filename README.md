@@ -1,4 +1,16 @@
-# Browsmos
+# Browsmos for Reinforcement Learning
+
+The game should send status information via WebSockets to a Python client and shall receive the player's commands, i.e. (re)start game and click somewhere.
+
+How to use:
+1. `pip3 install --user websockets asyncio`
+2. `python3 python/client.py`
+3. in another terminal: `python3 -m http.server`
+4. Open http://localhost:8000 in your web browser
+
+You should see status information like cell location, and win/lose in the output of `python3 python/client.py`.
+
+# Browsmos Original README
 
 ## Play
 

@@ -33,8 +33,16 @@ function World(canvas) {
 			'bounce': ['fx/bounce.ogg'],
 		}
 	);
+	this.socket = new WebSocket("ws://localhost:8888/")
 
 	// Methods
+
+	this.send_msg = function(obj) {
+		if (this.socket.readyState == 1) {
+			this.socket.send(JSON.stringify(obj));
+		}
+	}
+
 	this.init = function() {
 		// Event registration
 		this.canvas.addEventListener('mousedown', this.mouse_down, false);
@@ -330,6 +338,7 @@ function World(canvas) {
 	this.player_did_die = function() {
 		this.music.play_sound("death");
 		this.show_message("deathmessage");
+		this.send_msg({"type": "dead"});
 		
 		// Cute animation thing
 		var player = this.get_player();
@@ -349,6 +358,7 @@ function World(canvas) {
 			this.won = true;
 			this.music.play_sound("win");
 			this.show_message("successmessage");
+			this.send_msg({"type": "win"})
 		}
 	};
 	this.update = function() {
@@ -478,6 +488,24 @@ function World(canvas) {
 				this.show_message("warningmessage");
 			}
 		}
+
+		// Send cell info
+		cells = []
+		for (cell of this.cells) {
+			if (cell.dead) {
+				continue;
+			}
+			cells.push({
+				x: cell.x_pos,
+				y: cell.y_pos,
+				radius: cell.radius,
+				color: cell.fillStyle,
+			})
+		}
+		this.send_msg({
+			type: 'cells',
+			cells,
+		});
 		
 		// Draw player
 		player.draw(this.ctx, this.cam, this.shadows);
