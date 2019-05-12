@@ -93,6 +93,10 @@ function World(canvas) {
 			console.log(msg)
 			if (msg.command == "start") {
 				world.load_level();
+			} else if (msg.command == "click") {
+				if (!world.paused) {
+					world.push_player_from(msg.x, msg.y)
+				}
 			}
 		}
 		
