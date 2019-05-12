@@ -107,6 +107,8 @@ function World(canvas) {
 			this.load_level();
 			this.music.play_song();
 			this.has_started = true;
+
+			this.send_msg_cell(this.cells);
 		}
 	};
 	this.pause = function(forcepause) {
