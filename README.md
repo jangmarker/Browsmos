@@ -3,7 +3,7 @@
 The game should send status information via WebSockets to a Python client and shall receive the player's commands, i.e. (re)start game and click somewhere.
 
 How to use:
-1. `pip3 install --user websockets asyncio`
+1. `pip3 install --user websockets asyncio aioconsole`
 2. `python3 python/client.py`
 3. in another terminal: `python3 -m http.server`
 4. Open http://localhost:8000 in your web browser

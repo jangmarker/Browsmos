@@ -87,6 +87,14 @@ function World(canvas) {
 				world.music.play_sound("win");
 			}, false);
 		}
+
+		this.socket.onmessage = function(e) {
+			msg = JSON.parse(e.data)
+			console.log(msg)
+			if (msg.command == "start") {
+				world.load_level();
+			}
+		}
 		
 		this.music.init();
 		this.music.mute();

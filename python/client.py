@@ -3,10 +3,17 @@
 import asyncio
 import websockets
 import json
+from aioconsole import ainput
 
 async def hello(websocket, path):
     async for message in websocket:
-        print(json.loads(message))
+        msg = json.loads(message)
+        print(msg)
+        if msg['type'] == 'lost':
+            await ainput("press ok to restart")
+            await websocket.send(json.dumps({
+                'command': "start"
+            }))
 
 start_server = websockets.serve(hello, 'localhost', 8888)
 
