@@ -43,6 +43,25 @@ function World(canvas) {
 		}
 	}
 
+	this.send_msg_cell = function(orig_cells) {
+		cells = []
+		for (cell of orig_cells) {
+			if (cell.dead) {
+				continue;
+			}
+			cells.push({
+				x: cell.x_pos,
+				y: cell.y_pos,
+				radius: cell.radius,
+				color: cell.fillStyle,
+			})
+		}
+		this.send_msg({
+			type: 'cells',
+			cells,
+		});
+	}
+
 	this.init = function() {
 		// Event registration
 		this.canvas.addEventListener('mousedown', this.mouse_down, false);
@@ -491,22 +510,7 @@ function World(canvas) {
 
 		// Send cell info
 		if (this.has_started && !this.won && !player.dead) {
-			cells = []
-			for (cell of this.cells) {
-				if (cell.dead) {
-					continue;
-				}
-				cells.push({
-					x: cell.x_pos,
-					y: cell.y_pos,
-					radius: cell.radius,
-					color: cell.fillStyle,
-				})
-			}
-			this.send_msg({
-				type: 'cells',
-				cells,
-			});
+			this.send_msg_cell(this.cells)
 		}
 		
 		// Draw player
