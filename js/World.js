@@ -338,7 +338,7 @@ function World(canvas) {
 	this.player_did_die = function() {
 		this.music.play_sound("death");
 		this.show_message("deathmessage");
-		this.send_msg({"type": "dead"});
+		this.send_msg({"type": "lost"});
 		
 		// Cute animation thing
 		var player = this.get_player();
@@ -490,22 +490,24 @@ function World(canvas) {
 		}
 
 		// Send cell info
-		cells = []
-		for (cell of this.cells) {
-			if (cell.dead) {
-				continue;
+		if (this.has_started && !this.won && !player.dead) {
+			cells = []
+			for (cell of this.cells) {
+				if (cell.dead) {
+					continue;
+				}
+				cells.push({
+					x: cell.x_pos,
+					y: cell.y_pos,
+					radius: cell.radius,
+					color: cell.fillStyle,
+				})
 			}
-			cells.push({
-				x: cell.x_pos,
-				y: cell.y_pos,
-				radius: cell.radius,
-				color: cell.fillStyle,
-			})
+			this.send_msg({
+				type: 'cells',
+				cells,
+			});
 		}
-		this.send_msg({
-			type: 'cells',
-			cells,
-		});
 		
 		// Draw player
 		player.draw(this.ctx, this.cam, this.shadows);
