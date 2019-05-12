@@ -70,7 +70,7 @@ function World(canvas) {
 			document.addEventListener('DOMMouseScroll', this.mouse_scroll, false);
 			document.addEventListener('mousewheel', this.mouse_scroll, false);
 			window.addEventListener("keydown", this.key_down, false);
-			window.addEventListener("blur", function() {world.pause(true);}, false);
+			// window.addEventListener("blur", function() {world.pause(true);}, false);
 			
 			document.getElementById("mute").addEventListener('click', function() {world.music.mute();}, false);
 			document.getElementById("newlevel").addEventListener('click', function() {world.load_level();}, false);
@@ -89,6 +89,7 @@ function World(canvas) {
 		}
 		
 		this.music.init();
+		this.music.mute();
 	};
 	this.toggle_help = function() {
 		var overlay = document.getElementById("helpoverlay");
